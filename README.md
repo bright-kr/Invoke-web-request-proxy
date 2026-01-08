@@ -1,46 +1,46 @@
-# PowerShell Invoke-WebRequest Proxy Guide
+# PowerShell Invoke-WebRequest プロキシ Guide
 
-[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/blob/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.com/proxy-types) 
+[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/blob/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.co.kr/proxy-types) 
 
-At the end of this **Invoke-WebRequest PowerShell proxy guide**, you will know:
+이 **Invoke-WebRequest PowerShell プロキシ 가이드**를 끝까지 읽으면 다음을 알게 됩니다:
 
-1. [What Is PowerShell Invoke-WebRequest?](#what-is-powershell-invoke-webrequest)
-2. [Installing Invoke-WebRequest](#installing-invoke-webrequest)  
+1. [PowerShell Invoke-WebRequest란 무엇입니까?](#what-is-powershell-invoke-webrequest)
+2. [Invoke-WebRequest 설치](#installing-invoke-webrequest)  
    2.1. [Windows](#windows)  
    2.2. [macOS and Linux](#macos-and-linux)
-3. [Prerequisites to Get Started with a Proxy in PowerShell](#prerequisites-to-get-started-with-a-proxy-in-powershell)
-4. [How to Specify an HTTP Proxy in Invoke-WebRequest](#how-to-specify-an-http-proxy-in-invoke-webrequest)  
-   4.1. [Using a Command Line Option](#using-a-command-line-option)  
-   4.2. [Using Environment Variables](#using-environment-variables)
-5. [How To Use HTTPS and SOCKS Proxies in PowerShell](#how-to-use-https-and-socks-proxies-in-powershell)
-6. [Tips and Tricks You Need to Know](#tips-and-tricks-you-need-to-know)  
-   6.1. [Ignore the PowerShell Proxy Configuration](#ignore-the-powershell-proxy-configuration)  
-   6.2. [Avoid SSL Certificate Errors](#avoid-ssl-certificate-errors)
-7. [Which PowerShell Proxy Should You Use?](#which-powershell-proxy-should-you-use)
+3. [PowerShell에서 プロキシ를 시작하기 위한 사전 요구 사항](#prerequisites-to-get-started-with-a-proxy-in-powershell)
+4. [Invoke-WebRequest에서 HTTP プロキシ를 지정하는 방법](#how-to-specify-an-http-proxy-in-invoke-webrequest)  
+   4.1. [コマンドライン オプション 사용](#using-a-command-line-option)  
+   4.2. [환경 변수를 사용](#using-environment-variables)
+5. [PowerShell에서 HTTPS 및 SOCKS プロキシ를 사용하는 방법](#how-to-use-https-and-socks-proxies-in-powershell)
+6. [알아야 할 팁과 트릭](#tips-and-tricks-you-need-to-know)  
+   6.1. [PowerShell プロキシ 구성 무시](#ignore-the-powershell-proxy-configuration)  
+   6.2. [SSL 인증서 오류 방지](#avoid-ssl-certificate-errors)
+7. [어떤 PowerShell プロキシ를 사용해야 합니까?](#which-powershell-proxy-should-you-use)
 
-Let’s dive in!
+이제 시작해 보겠습니다!
 
 ---
 
 ## What Is PowerShell Invoke-WebRequest?
 
-**Invoke-WebRequest** is a PowerShell cmdlet for sending **HTTP, HTTPS, and FTP** requests to web servers and web services. By default, it automatically parses the response produced by the server and returns collections of forms, links, images, or other significant HTML elements.
+**Invoke-WebRequest**는 웹 서버 및 웹 서비스로 **HTTP, HTTPS, FTP** リクエスト를 보내기 위한 PowerShell cmdlet입니다. 기본적으로 서버가 생성한 レスポンス를 자동으로 파싱하고, 폼, 링크, 이미지 또는 기타 중요한 HTML 요소 컬렉션을 반환합니다.
 
-Usually, it is used for accessing REST APIs, downloading files from the web, or interacting with web services. Below is the basic syntax of an **Invoke-WebRequest** request:
+일반적으로 REST API에 액세스하거나, 웹에서 파일을 다운로드하거나, 웹 서비스와 상호작용하는 데 사용됩니다. 아래는 **Invoke-WebRequest** リクエスト의 기본 구문입니다:
 
 ```powershell
 Invoke-WebRequest [-Uri] <Uri> [-Method <WebRequestMethod>] [-Headers <IDictionary>] [-Body <Object>]
 ```
 
-**Key parameters to remember**:
+**기억해야 할 주요 パラメータ**:
 
-- Uri: The URI of the web resource to which the request is sent.
-- Method: The HTTP method to use for the request (e.g., GET, POST, PUT, DELETE).
-- Invoke-WebRequest sends GET requests by default.
-- Headers: The additional HTTP headers to include in the request.
-- Body: The body of the request to send to the server.
+- Uri: リクエスト가 전송되는 웹 리소스의 URI입니다.
+- Method: リクエスト에 사용할 HTTP 메서드입니다(예: GET, POST, PUT, DELETE).
+- Invoke-WebRequest는 기본적으로 GET リクエスト를 전송합니다.
+- Headers: リクエスト에 포함할 추가 HTTP ヘッダー입니다.
+- Body: 서버로 전송할 リクエスト 본문입니다。
  
-As you can see, the only required argument is <Uri>. Thus, in short, the simplest syntax to perform a GET request to a given URI is:
+보시는 것처럼 필수 인수는 <Uri>뿐입니다. 따라서 간단히 말해, 지정된 URI에 GET リクエスト를 수행하는 가장 단순한 구문은 다음과 같습니다:
 
 ```powershell
 Invoke-WebRequest <Uri>
@@ -48,21 +48,21 @@ Invoke-WebRequest <Uri>
 
 ## Installing Invoke-WebRequest
 
-To use Invoke-WebRequest, you need PowerShell. Let’s learn how to install PowerShell and get access to the Invoke-WebRequest cmdlet!
+Invoke-WebRequest를 사용하려면 PowerShell이 필요합니다. PowerShell을 설치하고 Invoke-WebRequest cmdlet에 접근하는 방법을 알아보겠습니다!
 
 ### Windows
 
-First, understand that Windows PowerShell and PowerShell are two different things. Windows PowerShell is the version of PowerShell that ships with Windows (latest version 5.1). It provides the Invoke-WebRequest cmdlet. If you are on a modern Windows release, you’re ready to go! For older versions, follow the official PowerShell installation guide.
+먼저 Windows PowerShell과 PowerShell은 서로 다른 것임을 이해해야 합니다. Windows PowerShell은 Windows에 포함되어 제공되는 PowerShell 버전(최신 버전 5.1)입니다. 여기에는 Invoke-WebRequest cmdlet이 포함됩니다. 최신 Windows 릴리스를 사용 중이라면 바로 사용 가능합니다! 구형 버전의 경우, 공식 PowerShell 설치 가이드를 따르십시오.
 
-Some features of Invoke-WebRequest are only available starting with PowerShell 7.x. For details on how to install it, follow the official migration guide from Windows PowerShell 5.1 to PowerShell 7. Note that PowerShell 7.x installs to a new directory and runs side-by-side with Windows PowerShell 5.1.
+Invoke-WebRequest의 일부 기능은 PowerShell 7.x부터만 제공됩니다. 설치 방법에 대한 자세한 내용은 Windows PowerShell 5.1에서 PowerShell 7로의 공식 마이그레이션 가이드를 따르십시오. PowerShell 7.x는 새 디렉터리에 설치되며 Windows PowerShell 5.1과 나란히(side-by-side) 실행됩니다.
 
-You can verify the current version of PowerShell on your Windows machine with:
+Windows 머신에서 현재 PowerShell 버전을 확인하려면 다음을 실행할 수 있습니다:
 
 ```powershell
 $PSVersionTable
 ```
 
-On PowerShell 7.x, that might print something like:
+PowerShell 7.x에서는 다음과 비슷한 출력이 표시될 수 있습니다:
 
 ```powershell
 PSVersion                   7.4.1
@@ -78,56 +78,56 @@ WSManStackVersion           3.0
 
 ### macOS and Linux
 
-PowerShell 7.x can be installed on both macOS and Linux. However, it does not make much sense to install the entire PowerShell ecosystem on these OSes just to access the Invoke-WebRequest cmdlet. Instead, you might use curl, which comes preinstalled on macOS and most Linux distributions, offering the same capabilities. Learn more in our [curl proxy guide](https://brightdata.com/blog/proxy-101/curl-with-proxies).
+PowerShell 7.x는 macOS와 Linux 모두에 설치할 수 있습니다. 그러나 Invoke-WebRequest cmdlet에 접근하기 위해서만 이 OS들에 PowerShell 생태계 전체를 설치하는 것은 큰 의미가 없습니다. 대신 macOS 및 대부분의 Linux 배포판에 기본으로 설치되어 있고 동일한 기능을 제공하는 curl을 사용할 수 있습니다. 자세한 내용은 [curl プロキシ 가이드](https://brightdata.co.kr/blog/proxy-101/curl-with-proxies)에서 확인하십시오.
 
 ## Prerequisites to Get Started with a Proxy in PowerShell
 
-A proxy acts as an intermediary between a client and the destination server: it intercepts your requests, forwards them to the server, receives the responses, and sends them back to you. This way, the destination server sees the requests as coming from the IP and location of the chosen proxy server—not from you.
+プロキシ는 클라이언트와 대상 서버 사이에서 중개자 역할을 합니다. 즉, リクエスト를 가로채 서버로 전달하고, レスポンス를 받은 뒤 다시 사용자에게 전송합니다. 이 방식으로 대상 서버는 リクエスト가 사용자로부터가 아니라 선택한 プロキシ 서버의 IPアドレス 및 위치에서 오는 것으로 인식합니다.
 
-To get started using a PowerShell proxy with Invoke-WebRequest, you need to understand what a proxy server URL looks like.
+Invoke-WebRequest로 PowerShell プロキシ를 사용하기 시작하려면, プロキシ 서버 URL이 어떤 형태인지 이해해야 합니다.
 
-This is the URL of a PowerShell Invoke-WebRequest proxy:
+다음은 PowerShell Invoke-WebRequest プロキシ의 URL입니다:
 
 ```powershell
 <PROTOCOL>://[<USERNAME>:<PASSWORD>]@<HOST>[:<PORT>]
 ```
 
-**That consists of:**
+**구성 요소는 다음과 같습니다:**
 
-- `PROTOCOL`: The protocol to use to connect to the proxy server.
-- `HOST`: The IP address or URL of the proxy server’s hostname.
-- `PORT`: The port number the proxy server listens to.
-- `USERNAME`: The optional username for proxy authentication.
-- `PASSWORD`: The optional password for proxy authentication.
+- `PROTOCOL`: プロキシ 서버에 연결하는 데 사용할 프로토콜입니다.
+- `HOST`: プロキシ 서버 호스트네임의 IPアドレス 또는 URL입니다.
+- `PORT`: プロキシ 서버가 수신 대기하는 포트 번호입니다.
+- `USERNAME`: プロキシ 認証에 사용하는 선택적 사용자 이름입니다.
+- `PASSWORD`: プロキシ 認証에 사용하는 선택적 비밀번호입니다.
 
-> 💡 **Important:**\
-> **The <PROTOCOL>:// part is required by Invoke-WebRequest. If you omit it, the request fails with:**\
+> 💡 **중요:**\
+> **<PROTOCOL>:// 부분은 Invoke-WebRequest에서 필수입니다. 이를 생략하면 リクエスト는 다음 오류로 실패합니다:**\
 > **Invoke-WebRequest : This operation is not supported for a relative URI.**
 
-In PowerShell 5.1, Invoke-WebRequest only supports HTTP, while in PowerShell 7.x it also supports HTTPS and SOCKS.
+PowerShell 5.1에서 Invoke-WebRequest는 HTTP만 지원하는 반면, PowerShell 7.x에서는 HTTPS와 SOCKS도 지원합니다.
 
-Time to retrieve a valid HTTP proxy!
+이제 유효한 HTTP プロキシ를 가져올 시간입니다!
 
-You can find one for free online, for example:
+예를 들어 온라인에서 무료로 다음과 같은 값을 찾을 수 있습니다:
 
 ```
 Protocol: HTTP; IP Address: 190.6.23.219; Port: 999
 ```
 
-Compose that into:
+이를 다음처럼 조합합니다:
 
 ```
 http://190.6.23.219:999
 ```
 
->⚠️ **Warning:**\
-> **Free proxies are unreliable, error-prone, slow, data-greedy, and short-lived. Do not use them!**
+>⚠️ **경고:**\
+> **무료 プロキシ는 신뢰할 수 없고, 오류가 잦고, 느리며, 데이터를 과도하게 수집하고, 수명이 짧습니다. 사용하지 마십시오!**
 
-Solution? Premium proxies from Bright Data, the best provider in the market. Subscribe and try our reliable proxies for free.
+해결책은? 시장 최고의 제공업체인 Bright Data의 프리미엄 プロキシ입니다. 구독하고 신뢰할 수 있는 プロキシ를 무료로 사용해 보십시오.
 
-[Bright Data’s proxy services](https://brightdata.com/proxy-types) are protected by authentication so that only trusted users can access them. 
+[Bright Data의 プロキシ 서비스](https://brightdata.co.kr/proxy-types)는 認証으로 보호되어 신뢰할 수 있는 사용자만 접근할 수 있습니다. 
 
-Suppose:
+다음과 같다고 가정해 보겠습니다:
 
 Protocol: `HTTP`
 Host: `45.103.203.109`
@@ -135,7 +135,7 @@ Port: `9571`
 Username: `admin-4521`
 Password: `rUuH3tJqf`
 
-Then the Invoke-WebRequest proxy URL is:
+그렇다면 Invoke-WebRequest プロキシ URL은 다음과 같습니다:
 
 ```powershell
 http://admin-4521:@rUuH3tJqf45.103.203.109:9571
@@ -143,13 +143,13 @@ http://admin-4521:@rUuH3tJqf45.103.203.109:9571
 
 ## How to Specify an HTTP Proxy in Invoke-WebRequest
 
-Before starting, run:
+시작하기 전에 다음을 실행하십시오:
 
 ```powershell
 Invoke-WebRequest "https://httpbin.org/ip"
 ```
 
-That might print:
+다음과 같이 출력될 수 있습니다:
 
 ```yaml
 StatusCode         : 200
@@ -174,18 +174,18 @@ ParsedHtml       : mshtml.HTMLDocumentClass
 RawContentLength : 32
 ```
 
-Focus on the **Content** field. That contains **your IP**.
+**Content** 필드에 주목하십시오. 여기에는 **사용자 IP**가 들어 있습니다.
 
-Why? Because `https://httpbin.org/ip` returns the origin IP of the request. So that’s your machine’s IP if no proxy is set.
+왜일까요? `https://httpbin.org/ip`는 リクエスト의 origin IP를 반환하기 때문입니다. 즉, プロキシ가 설정되지 않았다면 사용자의 머신 IP가 됩니다.
 
-If you only want the Content field:
+Content 필드만 원한다면 다음을 사용하십시오:
 
 ```powershell
 $response = Invoke-WebRequest "https://httpbin.org/ip"
 $response.Content
 ```
 
-Printing something like:
+다음과 같은 내용이 출력됩니다:
 
 ```json
 {
@@ -193,19 +193,19 @@ Printing something like:
 }
 ```
 
-If you route that request through a proxy, you’ll see the proxy server IP instead. This is a great test to confirm that PowerShell Invoke-WebRequest is indeed using your proxy.
+해당 リクエスト를 プロキシ를 통해 라우팅하면, 대신 プロキシ 서버 IP가 표시됩니다. 이는 PowerShell Invoke-WebRequest가 실제로 プロキシ를 사용하고 있는지 확인하는 훌륭한 테스트입니다.
 
-There are a couple of ways to set a PowerShell proxy in Invoke-WebRequest:
+Invoke-WebRequest에서 PowerShell プロキシ를 설정하는 방법은 몇 가지가 있습니다:
 
 ## Using a Command Line Option
 
-Invoke-WebRequest offers the `-Proxy` flag:
+Invoke-WebRequest는 `-Proxy` 플래그를 제공합니다:
 
 ```powershell
 Invoke-WebRequest -Proxy "<PROTOCOL>://[<USERNAME>:<PASSWORD>]@<HOST>[:<PORT>]" <Uri>
 ```
 
-So:
+따라서 다음과 같습니다:
 
 ```powershell
 Invoke-WebRequest -Proxy "http://190.6.23.219:999" "https://httpbin.org/ip"
@@ -220,7 +220,7 @@ Invoke-WebRequest -Uri "http://httpbin.org/ip" `
   )
 ```
 
-And the result:
+결과는 다음과 같습니다:
 
 ```yaml
 StatusCode         : 200
@@ -244,56 +244,56 @@ Links            : {}
 ParsedHtml       : mshtml.HTMLDocumentClass
 RawContentLength : 31
 ```
-Here, `origin` matches the proxy server IP, showing the request was proxied. Perfect!
+여기서 `origin`이 プロキシ 서버 IP와 일치하므로, リクエスト가 プロキシ를 통해 처리되었음을 보여줍니다. 완벽합니다!
 
-> **Note:** Free proxies are short-lived. If that one fails, pick another.
+> **Note:** 무료 プロキシ는 수명이 짧습니다. 해당 プロキシ가 실패하면 다른 것을 선택하십시오.
 
 ## Using Environment Variables
 
-Since PowerShell 7.0, Invoke-WebRequest supports proxy configuration via environment variables.
+PowerShell 7.0부터 Invoke-WebRequest는 환경 변수를 통한 プロキシ 구성을 지원합니다.
 
-Set two envs:
+두 개의 env를 설정하십시오:
 
-- `HTTP_PROXY:` Proxy URL for HTTP requests.
-- `HTTPS_PROXY:` Proxy URL for HTTPS requests.
+- `HTTP_PROXY:` HTTP リクエスト에 대한 プロキシ URL입니다.
+- `HTTPS_PROXY:` HTTPS リクエスト에 대한 プロキ시 URL입니다.
 
-On Windows:
+Windows에서:
 
 ```powershell
 $env:HTTP_PROXY  = "<PROTOCOL>://[<USERNAME>:<PASSWORD>]@<HOST>[:<PORT>]"
 $env:HTTPS_PROXY = "<PROTOCOL>://[<USERNAME>:<PASSWORD>]@<HOST>[:<PORT>]"
 ```
 
-For example: 
+예를 들어:
 
 ```powershell
 $env:HTTP_PROXY  = "http://190.6.23.219:999"
 $env:HTTPS_PROXY = "http://190.6.23.219:999"
 ```
 
-On macOS / Linux:
+macOS / Linux에서:
 
 ```bash
 export HTTP_PROXY="<PROTOCOL>://[<USERNAME>:<PASSWORD>]@<HOST>[:<PORT>]"
 export HTTPS_PROXY="<PROTOCOL>://[<USERNAME>:<PASSWORD>]@<HOST>[:<PORT>]"
 ```
 
-For example:
+예를 들어:
 
 ```bash
 export http_proxy="http://190.6.23.219:999"
 export https_proxy="http://190.6.23.219:999"
 ```
 
-All Invoke-WebRequest calls now go through these proxies automatically. Run:
+이제 모든 Invoke-WebRequest 호출은 자동으로 이 プロキシ들을 통해 처리됩니다. 다음을 실행하십시오:
 
 ```powershell
 Invoke-WebRequest "https://httpbin.org/ip"
 ```
 
-You’ll see the proxy IP again in `origin`. Perfect.
+`origin`에서 다시 プロキ시 IP가 표시될 것입니다. 완벽합니다.
 
-To turn off these proxies, unset them:
+이 プロキ시를 끄려면, 값을 해제하십시오:
 
 ```powershell
 $env:HTTP_PROXY  = ""
@@ -307,43 +307,43 @@ unset HTTP_PROXY
 unset HTTPS_PROXY
 ```
 
-Then Invoke-WebRequest `"https://httpbin.org/ip"` shows your IP again.
+그런 다음 Invoke-WebRequest `"https://httpbin.org/ip"`는 다시 사용자 IP를 보여줍니다.
 
 ## How To Use HTTPS and SOCKS Proxies in PowerShell
 
-For HTTPS or [SOCKS proxies](https://brightdata.com/solutions/socks5-proxies), you must use PowerShell 7.x+. Otherwise, you get:
+HTTPS 또는 [SOCKS プロキシ](https://brightdata.co.kr/solutions/socks5-proxies)를 사용하려면 PowerShell 7.x+를 사용해야 합니다. 그렇지 않으면 다음 오류가 발생합니다:
 
 ```
 Invoke-WebRequest : The ServicePointManager does not support proxies with the https scheme.
 ```
 
-Or for SOCKS:
+또는 SOCKS의 경우:
 
 ```
 Invoke-WebRequest : The ServicePointManager does not support proxies with the socks scheme.
 ```
 
-In PowerShell 7.x, the structure is still:
+PowerShell 7.x에서도 구조는 동일합니다:
 
 ```powershell
 Invoke-WebRequest -Proxy "<PROTOCOL>://[<USERNAME>:<PASSWORD>]@<HOST>[:<PORT>]" <Uri>
 ```
 
-But `<PROTOCOL>` can be `https`, `socks4`, `socks4a`, `socks5`, `socks5a` (instead of just `http`).
+다만 `<PROTOCOL>`은 `https`, `socks4`, `socks4a`, `socks5`, `socks5a`(기존 `http`뿐만 아니라)일 수 있습니다.
 
-If you try a protocol outside these, you get:
+이들 외의 프로토콜을 시도하면 다음 오류가 발생합니다:
 
 ```
 Invoke-WebRequest: Only the 'http', 'https', 'socks4', 'socks4a' and 'socks5' schemes are allowed for proxies.
 ```
 
-Example of a SOCKS proxy:
+SOCKS プロキシ 예시는 다음과 같습니다:
 
 ```powershell
 Invoke-WebRequest -Proxy "socks5://94.14.109.54:3567" "http://httpbin.org/ip"
 ```
 
-Output might be:
+출력은 다음과 같을 수 있습니다:
 
 ```yaml
 StatusCode         : 200
@@ -370,37 +370,37 @@ RawContentLength : 31
 
 ## Tips and Tricks You Need to Know
 
-See useful tricks for working with a PowerShell Invoke-WebRequest proxy like a pro.
+프로처럼 PowerShell Invoke-WebRequest プロキシ를 다루는 데 유용한 트릭을 확인하십시오.
 
 ### Ignore the PowerShell Proxy Configuration
 
-Use `-NoProxy` to skip the configured environment variable proxy:
+구성된 환경 변수 プロキシ를 건너뛰려면 `-NoProxy`를 사용하십시오:
 
 ```powershell
 Invoke-WebRequest -NoProxy <Uri>
 ```
 
-This contacts `<Uri>` without a proxy.
+이는 プロキ시 없이 `<Uri>`에 연결합니다.
 
-Verify by setting a proxy in envs, then:
+검증하려면 envs에 プロキ시를 설정한 다음 다음을 실행하십시오:
 
 ```powershell
 Invoke-WebRequest -NoProxy "https://httpbin.org/ip"
 ```
 
-You’ll see your IP, not the proxy’s.
+프로キ시 IP가 아니라 사용자 IP가 표시될 것입니다.
 
 ### Avoid SSL Certificate Errors
 
-Using HTTP proxies might fail due to SSL certificate errors. Use -SkipCertificateCheck:
+HTTP プロキ시 사용 시 SSL 인증서 오류로 실패할 수 있습니다. -SkipCertificateCheck를 사용하십시오:
 
 ```powershell
 Invoke-WebRequest -SkipCertificateCheck -Proxy "<PROTOCOL>://[<USERNAME>:<PASSWORD>]@<HOST>[:<PORT>]" <Uri>
 ```
 
-`-SkipCertificateCheck` allows insecure server connections. It’s not secure, so only use with trusted hosts.
+`-SkipCertificateCheck`는 안전하지 않은 서버 연결을 허용합니다. 보안상 안전하지 않으므로 신뢰할 수 있는 호스트에서만 사용해야 합니다.
 
-Example:
+예시:
 
 ```powershell
 Invoke-WebRequest -SkipCertificateCheck -Proxy "http://190.6.23.219:999" "https://httpbin.org/ip"
@@ -408,11 +408,11 @@ Invoke-WebRequest -SkipCertificateCheck -Proxy "http://190.6.23.219:999" "https:
 
 ## Which PowerShell Proxy Should You Use?
 
-It depends on your Invoke-WebRequest goals. Consider the main proxy types:
+Invoke-WebRequest 목표에 따라 달라집니다. 주요 プロキ시 유형을 고려하십시오:
 
-- [**Datacenter proxies:**](https://brightdata.com/proxy-types/datacenter-proxies) Fast, cheap, but easily blocked if identified.
-- [**Residential proxies:**](https://brightdata.com/proxy-types/residential-proxies) Rotating real IP addresses from devices. Perfect for geo-blocked content or anti-bot evasion.
-- [**ISP proxies:**](https://brightdata.com/proxy-types/isp-proxies) Secure, fast, static IPs from ISPs—ideal for SEO or market research.
-- [**Mobile proxies:**](https://brightdata.com/proxy-types/mobile-proxies) Real mobile devices, best for mobile-specific apps/sites.
+- [**データセンタープロキシ:**](https://brightdata.co.kr/proxy-types/datacenter-proxies) 빠르고 저렴하지만, 식별되면 쉽게 차단될 수 있습니다.
+- [**レジデンシャルプロキシ:**](https://brightdata.co.kr/proxy-types/residential-proxies) 디바이스에서 제공되는 실제 IPアドレス를 ローテーティング합니다. 지역 차단 콘텐츠 또는 アンチボット 회피에 적합합니다.
+- [**ISPプロキシ:**](https://brightdata.co.kr/proxy-types/isp-proxies) ISP가 제공하는 안전하고 빠른 スタティックプロキ시 IP—SEO 또는 시장 조사에 이상적입니다.
+- [**モバイルプロキシ:**](https://brightdata.co.kr/proxy-types/mobile-proxies) 실제 모바일 디바이스 기반으로, 모바일 전용 앱/사이트에 최적입니다.
 
-See more in our [guide to proxy IP types](https://brightdata.com/blog/proxy-101/ultimate-guide-to-proxy-types).
+자세한 내용은 [プロキシ IP 유형 가이드](https://brightdata.co.kr/blog/proxy-101/ultimate-guide-to-proxy-types)에서 확인하십시오.
