@@ -1,6 +1,6 @@
 # PowerShell Invoke-WebRequest プロキシ Guide
 
-[![Promo](https://github.com/luminati-io/LinkedIn-Scraper/blob/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.co.kr/proxy-types) 
+[![Promo](https://github.com/bright-kr/LinkedIn-Scraper/blob/main/Proxies%20and%20scrapers%20GitHub%20bonus%20banner.png)](https://brightdata.co.kr/proxy-types) 
 
 이 **Invoke-WebRequest PowerShell プロキシ 가이드**를 끝까지 읽으면 다음을 알게 됩니다:
 
